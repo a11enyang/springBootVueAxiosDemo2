@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link href='/webjars/bootstrap/4.4.1/css/bootstrap.min.css' rel='stylesheet'>
+    <title>earthquake_list</title>
+</head>
+<body >
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">地震灾情数据库</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">主页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">数据服务</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">接口服务</a>
+            </li>
+
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索相关数据</button>
+        </form>
+    </div>
+</nav>
+    <br>
+    <br>
+    <div id="eq">
+        <table class="table align-content-center" >
+            <thead>
+            <tr>
+                <th scope="col">code</th>
+                <th scope="col">location</th>
+                <th scope="col">date</th>
+                <th scope="col">note</th>
+                <th scope="col">picture</th>
+                <th scope="col">reportingUnit</th>
+                <th scope="col">type</th>
+                <th scope="col">status</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody class="align-content-center">
+            <tr v-for="earthquake in earthquakes">
+                <td> {{ earthquake.code }} </td>
+                <td> {{ earthquake.location }} </td>
+                <td> {{ earthquake.date }} </td>
+                <td> {{ earthquake.note }} </td>
+                <td> {{ earthquake.picture }} </td>
+                <td> {{ earthquake.reportingUnit }} </td>
+                <td> {{ earthquake.type }} </td>
+                <td> {{ earthquake.status }} </td>
+                <td>
+                    <button class="btn btn-primary" @click="readInfo(earthquake)"><a v-bind:href="infoHref">查看详细内容</a></button>
+<!--                    <button class="btn btn-primary" @click="readApi(earthquake)">复制数据api</button>-->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <footer class="text-muted bg-dark fixed-bottom">
+        <br>
+        <br>
+        <div class="container">
+            <p>地震数据库中心</p>
+            <p>数据库服务 <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a href="/docs/4.2/getting-started/introduction/">getting started guide</a>.</p>
+        </div>
+        <br>
+        <br>
+    </footer>
+
+<script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="/webjars/axios/0.19.0/dist/axios.min.js"></script>
+<script src="/webjars/vue/2.6.11/vue.min.js"></script>
+<script>
+    new Vue({
+        el: "#eq",
+        data() {
+            return {
+                earthquakes: null,
+                infoHref: null,
+                api: null,
+            }
+        },
+        mounted() {
+            axios
+            .get("http://localhost:8080/api/earthquake/list")
+            .then(response => (this.earthquakes = response.data));
+        },
+        methods: {
+            readInfo: function(e){
+                this.infoHref = "http://localhost:8080/earthquake/info/" + e.id;
+            },
+            readApi: function(e){
+                this.api = "http://localhost:8080/api/earthquake/info/" + e.id;
+                alert("api的地址是: " + this.api);
+            }
+        }
+    });
+</script>
+</body>
+</html>
