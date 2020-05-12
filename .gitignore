@@ -29,3 +29,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#earthquake不相关内容
+./src/main/resources/templates/books.html
+./src/main/resources/templates/index.html
+./src/main/java/com/example/demo/dao
+./src/main/java/com/example/demo/service/PersonService.java
+./src/main/java/com/example/demo/controller/person
+./src/main/java/com/example/demo/controller/TemplateController.java
+./src/main/java/com/example/demo/controller/HelloController.java
+./src/main/java/com/example/demo/model/Book.java
+./src/main/java/com/example/demo/model/Person.java
+./src/main/java/com/example/demo/model/PersonRespository.java
+
+
